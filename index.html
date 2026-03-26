@@ -685,7 +685,7 @@ footer {
     </ul>
   </div>
   <div class="nav-right">
-    <button class="btn-ghost" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">Sign in</button>
+    <button class="btn-ghost" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">Join Waitlist</button>
     <button class="btn-primary" onclick="document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})">Request Access</button>
   </div>
 </nav>
@@ -695,7 +695,6 @@ footer {
 <section id="hero">
   <div class="hero-inner">
 
-```
 <div class="hero-eyebrow">
   <span class="eyebrow-dot"></span>
   Building Safety Act 2022 — Now Enforced
@@ -740,7 +739,6 @@ footer {
     <div class="metric-label">Max personal fine for non-compliance</div>
   </div>
 </div>
-```
 
   </div>
 </section>
@@ -754,7 +752,6 @@ footer {
 <section id="problem" class="section light">
   <div class="section-inner">
 
-```
 <div class="reveal">
   <div class="section-tag">The Problem</div>
   <h2 class="section-h2">Building Safety Act compliance<br>is <span class="blue-word">broken</span> for most APs</h2>
@@ -795,7 +792,6 @@ footer {
     <p>Accountable Persons face <strong>unlimited financial penalties</strong> and <strong>personal prosecution</strong> for failure to maintain the Golden Thread, produce a Safety Case, or respond to BSR Building Assessment Certificate requests. Compliance is not optional.</p>
   </div>
 </div>
-```
 
   </div>
 </section>
@@ -805,7 +801,6 @@ footer {
 <section id="features" class="section" style="background:var(--paper-2)">
   <div class="section-inner">
 
-```
 <div class="reveal">
   <div class="section-tag">The Platform</div>
   <h2 class="section-h2">Everything your building<br>needs to <span class="blue-word">stay compliant</span></h2>
@@ -865,7 +860,6 @@ footer {
     <div class="stat-label">Regulations covered including BSA 2022, FSA 2021, and FS(E)R 2022</div>
   </div>
 </div>
-```
 
   </div>
 </section>
@@ -875,7 +869,6 @@ footer {
 <section id="trust" class="section" style="background:var(--white);border-top:1px solid var(--paper-3);border-bottom:1px solid var(--paper-3)">
   <div class="section-inner">
 
-```
 <div class="reveal" style="text-align:center;margin-bottom:48px">
   <div class="section-tag" style="justify-content:center">
     <span style="width:16px;height:1.5px;background:var(--blue);display:block"></span>
@@ -907,7 +900,6 @@ footer {
     <p>Every action on your building record is permanently logged. Nothing is deleted, only superseded. Legally defensible under BSA 2022 Golden Thread requirements.</p>
   </div>
 </div>
-```
 
   </div>
 </section>
@@ -918,7 +910,6 @@ footer {
   <div class="section-inner">
     <div class="waitlist-inner">
 
-```
   <div class="section-tag" style="justify-content:center;color:var(--blue)">
     <span style="width:16px;height:1.5px;background:var(--blue);display:block"></span>
     Early Access
@@ -982,7 +973,6 @@ footer {
   </div>
 
 </div>
-```
 
   </div>
 </section>
@@ -1017,18 +1007,26 @@ window.addEventListener('scroll', () => {
 // Form
 function handleSubmit(e) {
   e.preventDefault();
-  const fn = document.getElementById('fn').value.trim();
-  const em = document.getElementById('em').value.trim();
-  if (!fn || !em) {
-    [document.getElementById('fn'), document.getElementById('em')].forEach(el => {
-      if (!el.value.trim()) el.style.borderColor = 'rgba(243,18,96,0.6)';
-    });
-    return;
-  }
+  const fnEl = document.getElementById('fn');
+  const emEl = document.getElementById('em');
+  const fn = fnEl.value.trim();
+  const em = emEl.value.trim();
+  const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em);
+  let hasError = false;
+  [fnEl, emEl].forEach(el => { el.style.borderColor = ''; });
+  if (!fn) { fnEl.style.borderColor = 'rgba(243,18,96,0.6)'; hasError = true; }
+  if (!em || !emailValid) { emEl.style.borderColor = 'rgba(243,18,96,0.6)'; hasError = true; }
+  if (hasError) return;
   document.getElementById('formWrap').style.display = 'none';
   document.getElementById('formSuccess').classList.add('show');
-  console.log('Signup:', { fn, em, org: document.getElementById('org').value, type: document.getElementById('otype').value });
 }
+
+// Clear field error state on input
+['fn', 'em'].forEach(id => {
+  document.getElementById(id).addEventListener('input', function() {
+    this.style.borderColor = '';
+  });
+});
 </script>
 
 </body>
